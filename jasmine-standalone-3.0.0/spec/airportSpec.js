@@ -4,22 +4,19 @@ describe('Airport', function() {
   var plane;
   beforeEach(function() {
     airport = new Airport();
-    // plane = {
-    //   isLanded: function() {}
-    // };
-    plane = new Plane();
+    plane = jasmine.createSpyObj('plane', ['isLanded', 'land']);
+    //spyOn(plane, "isLanded").and.returnValue(true)
   });
 
   describe('land', function() {
     it('returns a plane', function() {
-      expect(airport.land('plane')).toEqual('plane');
+      expect(airport.land(plane)).toEqual(plane);
     });
 
     it('raises an error if plane has landed already', function() {
-      airport.land(plane);
-      expect(function() {
-        airport.land(plane);
-      }).toThrow(new Error('This plane has already landed'));
+      //spyOn(plane, "isLanded").and.returnValue(true)
+      plane.isLanded.and.callFake(function(){return true;});
+      expect(airport.land(plane)).toEqual('This plane has already landed')
     });
   });
   describe('take off', function() {
@@ -28,9 +25,9 @@ describe('Airport', function() {
       expect(airport.takeOff(plane)).toEqual(`${plane} has taken off`);
     });
     it('removes a plane from hangar', function() {
-      airport.land('plane');
-      airport.takeOff('plane');
-      expect(airport.hangar).not.toContain('plane');
+      airport.land(plane);
+      airport.takeOff(plane);
+      expect(airport.hangar).not.toContain(plane);
     });
   });
   describe('hangar', function() {
@@ -39,8 +36,9 @@ describe('Airport', function() {
     });
 
     it('can hold planes', function() {
-      airport.land('plane');
-      expect(airport.hangar).toContain('plane');
+      plane.isLanded.and.callFake(function(){return false;});
+      airport.land(plane);
+      expect(airport.hangar).toContain(plane);
     });
   });
 });
