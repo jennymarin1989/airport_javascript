@@ -8,5 +8,7 @@ Airport.prototype.land = function(plane) {
 };
 
 Airport.prototype.takeOff = function(plane) {
-  return plane;
+  var index = this.hangar.indexOf(plane)
+  this.hangar.splice(index,1);
+  return `${plane} has taken off`;
 };

@@ -1,5 +1,6 @@
 describe('Airport', function() {
   var airport;
+  var plane = jasmine.createSpy("plane");
 
   beforeEach(function() {
     airport = new Airport();
@@ -12,7 +13,14 @@ describe('Airport', function() {
   });
   describe('take off', function() {
     it('returns a plane when plane takes off', function() {
-      expect(airport.takeOff('plane')).toEqual('plane');
+      airport.land(plane)
+      expect(airport.takeOff(plane)).toEqual(`${plane} has taken off`);
+    });
+    it('removes a plane from hangar', function(){
+      airport.land("plane")
+      airport.takeOff("plane")
+      expect(airport.hangar).not.toContain("plane")
+
     });
   });
   describe('hangar', function() {
