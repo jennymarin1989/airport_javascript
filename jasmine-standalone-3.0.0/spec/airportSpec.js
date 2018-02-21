@@ -59,4 +59,10 @@ describe('Airport', function() {
     });
   });
 
+  describe ('capacity', function(){
+    it("has a default capacity", function(){
+      expect(airport.capacity()).toEqual(airport.DEFAULT_CAPACITY)
+    });
+  });
+
 });

@@ -1,5 +1,10 @@
 var Airport = function() {
   this.hangar = [];
+  this.DEFAULT_CAPACITY = 10;
+};
+
+Airport.prototype.capacity = function(){
+  return this.DEFAULT_CAPACITY;
 };
 
 Airport.prototype.land = function(plane) {
