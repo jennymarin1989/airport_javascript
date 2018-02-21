@@ -4,7 +4,7 @@ describe('Airport', function() {
   var plane;
   beforeEach(function() {
     airport = new Airport();
-    plane = jasmine.createSpyObj('plane', ['isLanded', 'land']);
+    plane = jasmine.createSpyObj('plane', ['isLanded', 'land','takeOff']);
     //spyOn(plane, "isLanded").and.returnValue(true)
   });
 
@@ -16,7 +16,7 @@ describe('Airport', function() {
     it('raises an error if plane has landed already', function() {
       //spyOn(plane, "isLanded").and.returnValue(true)
       plane.isLanded.and.callFake(function(){return true;});
-      expect(airport.land(plane)).toEqual('This plane has already landed')
+      expect(function(){airport.land(plane)}).toThrow('This plane has already landed')
     });
   });
   describe('take off', function() {
@@ -28,6 +28,13 @@ describe('Airport', function() {
       airport.land(plane);
       airport.takeOff(plane);
       expect(airport.hangar).not.toContain(plane);
+    });
+    it('does not take off if plane is not in hangar', function(){
+      airport.land(plane);
+      airport.takeOff(plane);
+      //plane.isLanded.and.callFake(function(){return false;});
+       expect(function(){airport.takeOff(plane)})toThrow(`${plane} is not in hangar`)
+      })
     });
   });
   describe('hangar', function() {
@@ -41,4 +48,13 @@ describe('Airport', function() {
       expect(airport.hangar).toContain(plane);
     });
   });
+
+  describe('is at airport', function(){
+    it('return true if plane is in the hangar', function(){
+      airport.land(plane)
+      expect(airport.isAtAirport).toBeTruthy();
+
+    });
+  });
+
 });
