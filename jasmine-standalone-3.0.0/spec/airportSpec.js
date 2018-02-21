@@ -18,6 +18,12 @@ describe('Airport', function() {
       plane.isLanded.and.callFake(function(){return true;});
       expect(function(){airport.land(plane)}).toThrow('This plane has already landed')
     });
+    it('raises an error if airport is full', function(){
+      for( i = 0; i < 10; i ++) {
+        airport.land(plane);
+      }
+      expect(function(){airport.land(plane)}).toThrow("hangar is full");
+    });
   });
 
   describe('take off', function() {
@@ -33,7 +39,6 @@ describe('Airport', function() {
     it('does not take off if plane is not in hangar', function(){
        expect(function(){airport.takeOff(plane)}).toThrow(`${plane} is not in hangar`)
      });
-
   });
 
   describe('hangar', function() {
@@ -62,6 +67,22 @@ describe('Airport', function() {
   describe ('capacity', function(){
     it("has a default capacity", function(){
       expect(airport.capacity()).toEqual(airport.DEFAULT_CAPACITY)
+    });
+  });
+
+  describe('is full', function(){
+    it ('returns true when hangar is full', function(){
+      for( i = 0; i < 10; i ++) {
+        airport.land(plane);
+      }
+      expect(airport.isFull()).toBeTruthy();
+    });
+  });
+  describe('set capacity', function(){
+    it('set a new capacity', function(){
+      airport.setCapacity(15);
+      expect(airport.capacity()).toEqual(15);
+
     });
   });
 
