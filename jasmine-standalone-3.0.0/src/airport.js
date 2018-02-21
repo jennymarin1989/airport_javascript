@@ -4,41 +4,43 @@ var Airport = function() {
   this._capacity = this.DEFAULT_CAPACITY;
 };
 
-Airport.prototype.capacity = function(number){
-  return this._capacity;
-};
+Airport.prototype = {
+  capacity: function(number){
+    return this._capacity;
+  },
 
-Airport.prototype.land = function(plane) {
-  if (plane.isLanded()) {
-    throw 'This plane has already landed';
-  } else if (this.isFull()){
-    throw "hangar is full";
-  }
-  else {
-    plane.land();
-    this.hangar.push(plane);
-    return plane;
-  }
-};
+  setCapacity: function(number){
+    this._capacity = number;
+  },
 
-Airport.prototype.takeOff = function(plane) {
-  if (!this.isAtAirport(plane)) {
-    throw `${plane} is not in hangar`;
-  } else {
-    var index = this.hangar.indexOf(plane);
-    this.hangar.splice(index, 1);
-    return `${plane} has taken off`;
-  }
-};
+  land: function(plane) {
+    if (plane.isLanded()) {
+      throw 'This plane has already landed';
+    } else if (this.isFull()){
+      throw "hangar is full";
+    } else {
+      plane.land();
+      this.hangar.push(plane);
+      return plane;
+    }
+  },
 
-Airport.prototype.isAtAirport = function(plane){
-  return this.hangar.includes(plane);
-};
+  takeOff: function(plane) {
+    if (!this.isAtAirport(plane)) {
+      throw `${plane} is not in hangar`;
+    } else {
+      var index = this.hangar.indexOf(plane);
+      this.hangar.splice(index, 1);
+      return `${plane} has taken off`;
+    }
+  },
 
-Airport.prototype.isFull = function(){
-  return this.hangar.length >= this._capacity;
-};
+  isAtAirport: function(plane){
+    return this.hangar.includes(plane);
+  },
 
-Airport.prototype.setCapacity = function(number){
-  this._capacity = number;
-};
+  isFull: function(){
+    return this.hangar.length >= this._capacity;
+  },
+
+}
