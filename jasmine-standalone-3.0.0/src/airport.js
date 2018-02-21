@@ -13,11 +13,15 @@ Airport.prototype.land = function(plane) {
 };
 
 Airport.prototype.takeOff = function(plane) {
-  var index = this.hangar.indexOf(plane);
-  this.hangar.splice(index, 1);
-  return `${plane} has taken off`;
+  if (!this.isAtAirport(plane)) {
+    throw `${plane} is not in hangar`;
+  } else {
+    var index = this.hangar.indexOf(plane);
+    this.hangar.splice(index, 1);
+    return `${plane} has taken off`;
+  }
 };
 
 Airport.prototype.isAtAirport = function(plane){
-  this.hangar.includes(plane);
+  return this.hangar.includes(plane);
 };

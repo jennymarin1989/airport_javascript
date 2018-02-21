@@ -19,6 +19,7 @@ describe('Airport', function() {
       expect(function(){airport.land(plane)}).toThrow('This plane has already landed')
     });
   });
+
   describe('take off', function() {
     it('returns a plane when plane takes off', function() {
       airport.land(plane);
@@ -30,13 +31,11 @@ describe('Airport', function() {
       expect(airport.hangar).not.toContain(plane);
     });
     it('does not take off if plane is not in hangar', function(){
-      airport.land(plane);
-      airport.takeOff(plane);
-      //plane.isLanded.and.callFake(function(){return false;});
-       expect(function(){airport.takeOff(plane)})toThrow(`${plane} is not in hangar`)
-      })
-    });
+       expect(function(){airport.takeOff(plane)}).toThrow(`${plane} is not in hangar`)
+     });
+
   });
+
   describe('hangar', function() {
     it('returns an empty array when instantiated', function() {
       expect(airport.hangar).toEqual([]);
@@ -52,8 +51,11 @@ describe('Airport', function() {
   describe('is at airport', function(){
     it('return true if plane is in the hangar', function(){
       airport.land(plane)
-      expect(airport.isAtAirport).toBeTruthy();
+      expect(airport.isAtAirport(plane)).toBeTruthy();
+    });
 
+    it('return false if plane is not in the hangar', function(){
+      expect(airport.isAtAirport(plane)).toBeFalsy();
     });
   });
 
