@@ -2,10 +2,15 @@ describe('Airport', function() {
   var airport;
   // var plane = jasmine.createSpyObj('plane', ['isLanded', 'land', 'takeOff']);
   var plane;
+  var sunny;
+  var stormy;
+  var weather;
+
   beforeEach(function() {
     airport = new Airport();
     plane = jasmine.createSpyObj('plane', ['isLanded', 'land','takeOff']);
-    //spyOn(plane, "isLanded").and.returnValue(true)
+    // weather = jasmine.createSpyObj('weather')
+  //spyOn(plane, "isLanded").and.returnValue(true)
   });
 
   describe('land', function() {
@@ -83,6 +88,13 @@ describe('Airport', function() {
       airport.setCapacity(15);
       expect(airport.capacity()).toEqual(15);
 
+    });
+  });
+
+  describe('is stormy', function(){
+    it('returns true if is stormy', function(){
+      spyOn('weather', 'randomWeather').and.returnValue("stormy");
+      expect(airport.isStormy()).toBeTruthy();
     });
   });
 

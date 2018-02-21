@@ -16,6 +16,8 @@ Airport.prototype = {
   land: function(plane) {
     if (plane.isLanded()) {
       throw 'This plane has already landed';
+    } else if (this.isStormy){
+        throw "Is too stormy to land";
     } else if (this.isFull()){
       throw "hangar is full";
     } else {
@@ -43,4 +45,10 @@ Airport.prototype = {
     return this.hangar.length >= this._capacity;
   },
 
+  isStormy: function(){
+      var weather = new Weather();
+      console.log(weather.randomWeather());
+    return weather.randomWeather() === "stormy";
+
+  },
 }
